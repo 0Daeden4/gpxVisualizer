@@ -1,10 +1,8 @@
 from folium.plugins import HeatMap
-from folium import FitBounds, PolyLine
+from folium import PolyLine
 
 from gpxplotter import create_folium_map, read_gpx_file
 import interfacemaker as ifm
-#import location_as_path as lap
-#import location_heatmap as lh
 
 def name_format(time, username):
     month = time.month

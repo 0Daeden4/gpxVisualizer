@@ -1,4 +1,3 @@
-
 def _create_side_panel(options):
     div = f"""<div id="sidebar">
         <h3>Select Content</h3>"""
