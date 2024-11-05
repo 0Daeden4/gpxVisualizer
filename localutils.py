@@ -16,10 +16,8 @@ def name_format(time, username):
 def save_file(data, map, filename, method, line_data):
     map.fit_bounds(data)
     if (method == "heatmap"):
-        #lh.tile_according_to_time(data, map)
         HeatMap(data, name="Heatmap", radius=30).add_to(map)
     elif (method == "path"):
-        #lap.create_map(data, map, color, width, opacity)
         PolyLine(data, color=line_data[0], weight=line_data[1], opacity=line_data[2]).add_to(map)
     map.save(f"{filename}.html")
 
@@ -35,13 +33,13 @@ def parse_with_interval (interval, username, main_html_name, method, gpx_to_read
             switch = 0
             prev_minute = -1
             map = create_folium_map(tiles="openstreetmap")
+
             # to make users data distinct from each other
             # placeholder
             name = ""
             for lat, lon, time in zip(segment["lat"], segment["lon"], segment["time"]):
                 minute = time.minute
                 data.append([lat,lon])
-
 
                 # for initially naming the file
                 if switch == 0:
@@ -64,4 +62,3 @@ def parse_with_interval (interval, username, main_html_name, method, gpx_to_read
             break
         #print(file_names)
         ifm.create_index_page(main_html_name, file_names)
-
