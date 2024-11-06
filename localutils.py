@@ -14,17 +14,17 @@ def name_format(time, username):
     # format filename to your liking
     return username + f"-m{month}-d{day}-{hour}_{minute}"
 
-def save_file(data, map, filename, method, line_data):
+def save_file(data, map, filename, method, line_data, heatmap_data):
     map.fit_bounds(data)
     if (method == "heatmap"):
-        HeatMap(data, name="Heatmap", radius=30).add_to(map)
+        HeatMap(data, min_opacity=heatmap_data[0], name="Heatmap", radius=heatmap_data[1]).add_to(map)
     elif (method == "path"):
         PolyLine(data, color=line_data[0], weight=line_data[1], opacity=line_data[2]).add_to(map)
     map.save(f"{filename}.html")
 
 
 
-def parse_with_interval (interval, username, main_html_name, method, gpx_to_read, line_data):
+def parse_with_interval (interval, username, main_html_name, method, gpx_to_read, line_data, heatmap_data):
     # Support for multiple tracks
     for track in read_gpx_file(gpx_to_read):
         file_names = []
@@ -51,14 +51,14 @@ def parse_with_interval (interval, username, main_html_name, method, gpx_to_read
 
                 # change different map interval in minutes to your liking
                 if (interval != -1) and (minute%interval == 0) and (minute != prev_minute):
-                    save_file(data, map, name, method, line_data)
+                    save_file(data, map, name, method, line_data, heatmap_data)
                     map = create_folium_map(tiles="openstreetmap")
                     prev_minute = minute
                     data = []
                     name = name_format(time, username)
                     file_names.append(name)
 
-            save_file(data, map, name, method, line_data)
+            save_file(data, map, name, method, line_data, heatmap_data)
             break
 
         ifm.create_index_page(main_html_name, file_names)
