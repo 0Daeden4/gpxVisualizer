@@ -10,6 +10,7 @@ def name_format(time, username):
     hour = time.hour
     minute = time.minute
     second = time.second
+
     # format filename to your liking
     return username + f"-m{month}-d{day}-{hour}_{minute}"
 
@@ -32,6 +33,7 @@ def parse_with_interval (interval, username, main_html_name, method, gpx_to_read
             data = []
             switch = 0
             prev_minute = -1
+
             map = create_folium_map(tiles="openstreetmap")
 
             # to make users data distinct from each other
@@ -44,21 +46,19 @@ def parse_with_interval (interval, username, main_html_name, method, gpx_to_read
                 # for initially naming the file
                 if switch == 0:
                     name = name_format(time, username)
-                    print("switch: ",name)
                     file_names.append(name)
                     switch = 1
 
                 # change different map interval in minutes to your liking
-                if (minute%interval == 0) & (minute != prev_minute):
+                if (interval != -1) and (minute%interval == 0) and (minute != prev_minute):
                     save_file(data, map, name, method, line_data)
                     map = create_folium_map(tiles="openstreetmap")
                     prev_minute = minute
                     data = []
                     name = name_format(time, username)
-                    print("inteval: ",name)
                     file_names.append(name)
 
             save_file(data, map, name, method, line_data)
             break
-        #print(file_names)
+
         ifm.create_index_page(main_html_name, file_names)

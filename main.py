@@ -2,6 +2,7 @@ import localutils as lutil
 
 
 # Define in which intervals (in minutes) the data should be divided
+# The interval can be set to -1 to display all data at once
 interval = 5
 
 # File from which the location data is obtained
